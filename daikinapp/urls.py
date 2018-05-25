@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.home_page, name='home_page'),
+    url(r'^login/', views.enter, name = 'login'),
 ]

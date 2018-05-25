@@ -1,0 +1,17 @@
+body{
+  background-image: url('tools_wood_background.jpg');
+  min-height: 100vh;
+  min-width: 100vw;
+  overflow: hidden;
+  background-size: cover;
+  background-position: top right;
+}
+
+input, textarea{
+    color: #fff000;
+}
+
+form{
+    padding-top: 230px;
+    padding-left: 180px;
+}

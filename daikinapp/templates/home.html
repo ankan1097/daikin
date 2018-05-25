@@ -1,1 +1,44 @@
-<p>first done</p>
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Home-Daikin</title>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  </head>
+  <body>
+    <div class="page-header">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/DAIKIN_logo.svg" alt="Daikin Logo" style="width:450px;height:150px">
+    </div>
+    <center>
+    <form class="col s12" action="/login/" method="post">{% csrf_token%}
+    <div class="row">
+        <div class="input-field col s3">
+            <input type="hidden">
+        </div>
+      <div class="input-field col s2">
+        <select  class="browser-default" name="stakeholder">
+          <option value="" disabled selected>Choose Stakeholder</option>
+          <option value="1">Customer</option>
+          <option value="2">Dealer</option>
+          <option value="3">Service Engineer</option>
+          <option value="4">Analyst</option>
+          <option value="5">Expert</option>
+        </select>
+      </div>
+      <div class="input-field col s4">
+          <input id="input_text" type="text" name="input_text">
+          <label for="input_text">Enter your id</label>
+      </div>
+    </div>
+      <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>
+    </form></center>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+  </body>
+</html>
