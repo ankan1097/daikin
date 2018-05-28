@@ -15,14 +15,14 @@
       <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/DAIKIN_logo.svg" alt="Daikin Logo" style="width:450px;height:150px">
     </div>
     <center>
-    <form class="col s12" action="/login/" method="post">{% csrf_token%}
+    <form class="col s12" action="/home/" method="post">{% csrf_token%}
     <div class="row">
         <div class="input-field col s3">
             <input type="hidden">
         </div>
       <div class="input-field col s2">
         <select  class="browser-default" name="stakeholder">
-          <option value="" disabled selected>Choose Stakeholder</option>
+          <option value="0" disabled selected>Choose Stakeholder</option>
           <option value="1">Customer</option>
           <option value="2">Dealer</option>
           <option value="3">Service Engineer</option>
@@ -31,10 +31,15 @@
         </select>
       </div>
       <div class="input-field col s4">
-          <input id="input_text" type="text" name="input_text">
+          <input id="input_text" type="text" name="input_text" required>
           <label for="input_text">Enter your id</label>
       </div>
     </div>
+    {%for message in messages %}
+    <div class="error">
+        <p>{{message}}</p>
+    </div>
+    {% endfor %}
       <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>
     </form></center>
 

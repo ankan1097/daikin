@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.home_page, name='home_page'),
-    url(r'^login/', views.enter, name = 'login'),
+    url(r'^home/', views.enter, name = 'home'),
+    url(r'^system/', views.system, name = 'system'),
 ]
