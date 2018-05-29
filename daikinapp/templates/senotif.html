@@ -1,0 +1,39 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<title>Customer-Systems</title>
+
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/senotif.css' %}">
+  </head>
+  <body>
+	<div class="page-header">
+	  <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/DAIKIN_logo.svg" alt="Daikin Logo" style="width:450px;height:150px">
+	</div>
+	<div class="notif-header">
+	  <p>Your notifications</p>
+	</div>
+	{%for notif in notifications %}
+		<div class="card">
+			<div class="card-content">
+				<p>Service request by customer <i>{{notif.senderid}}</i> at <i>{{notif.addr}}</i> on <i>{{notif.day}}</i> at <i>{{notif.timeslot}}</i>.</p>
+				<p>Fault: {{notif.description}} </p>
+				
+			</div>
+			<div class="card-action">
+				<a href="{% url 'acceptance'%}">Accept</a>
+				<a href="#">Reject</a>
+				<a href="#">Call a Pro</a>
+			</div>
+		</div>
+	{% endfor %}
+
+	<!-- Compiled and minified JavaScript -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+  </body>

@@ -1,0 +1,21 @@
+body{
+  background-image: url('bg1.jpg');
+  min-height: 100vh;
+  min-width: 100vw;
+  background-size: cover;
+  background-position: top right;
+}
+
+
+.notif-header{
+    color: white;
+    padding-left: 700px;
+    font-size: 40px;
+}
+
+
+.card{
+    width : 550px;
+    max-height: : 40px;
+    margin-left: 600px;
+}
