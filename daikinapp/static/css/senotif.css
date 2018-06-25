@@ -19,3 +19,7 @@ body{
     max-height: : 40px;
     margin-left: 600px;
 }
+
+.collapsible-body{
+  background-color: white;
+}

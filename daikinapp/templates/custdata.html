@@ -1,0 +1,62 @@
+{% load staticfiles %}
+
+    <script type="text/javascript">
+        $('.collapsible').collapsible();
+        $(document).ready(function(){
+            var user;
+            $('.real').click(function(){
+                user = $(this).attr('id');
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'dsystem' %}",
+                    data:{
+                        'user': user
+                    },
+                    success:function(resp){
+                        $('#customers').empty();
+                        $('#customers').html(resp);
+                    }
+                });
+            });
+        });
+    </script>
+    <div class="notif-header">
+      <h4>Your Customers</h4>
+    </div>
+        <ul class="collapsible popout" data-collapsible="accordion">
+            {% for customer in data %}
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">face</i>{{customer.fullname}}</div>
+                    <div class="collapsible-body">
+                        <div class="row">
+                            <div class="col s4">
+                                <iframe width="200" height="240" frameborder="0" style="border:0"
+                                  src='https://www.google.com/maps/embed/v1/place?key=AIzaSyD0l_ALMhteF7pYzaNj3GjJKxV5zAOA3W8&q= {{customer.latitude}},{{customer.longitude}}&amp;' allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div class="col s8">
+                                <p><b>ID: </b>{{customer.id}} &emsp; <b>Email: </b>{{customer.email}} &emsp; <b>Address:</b>{{customer.address}}</p>
+                                <h5><b>Systems</b></h5>
+                                <h6><b>&emsp;Outdoor Systems</b></h6>
+                                <ul class="collapsible popout" data-collapsible="accordion">
+                                {% for outs in customer.outdoors %}
+                                        <li>
+                                            <div class="collapsible-header"><i class="material-icons">keyboard</i>{{outs.modelid}}</div>
+                                            <div class="collapsible-body">
+                                                <ul class="collection">
+                                                    <h6><b>&emsp;Indoor Systems</b></h6>
+                                                    {% for ins in outs.indoors %}
+                                                            <li class="collection-item">{{ins.modelid}}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <a id={{customer.id}} href="#" class="real">See Real Time Details</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>

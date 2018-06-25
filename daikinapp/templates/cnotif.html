@@ -1,0 +1,42 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<title>Customer-Systems</title>
+
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/senotif.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript">
+	</script>
+  </head>
+  <body>
+	<div class="page-header">
+	  <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/DAIKIN_logo.svg" alt="Daikin Logo" style="width:450px;height:150px">
+	</div>
+	<div class="notif-header">
+	  <p>Your notifications</p>
+	</div>
+	{%for notif in notifications %}
+		<div class="card">
+			{% if notif.read %}
+				<div class="card-content">
+					<p>Service request by you <i>{{notif.addr}}</i> on <i>{{notif.day}}</i> at <i>{{notif.timeslot}}</i> is accepted by service engineer <i>{{notif.senderid}}</i> .</p>
+				</div>
+			{% else %}
+				<div class="card-content">
+					<b><p>Service request by customer <i>{{notif.senderid}}</i> at <i>{{notif.addr}}</i> on <i>{{notif.day}}</i> at <i>{{notif.timeslot}}</i>.</p>
+					<p>Fault: {{notif.description}} </p></b>
+				</div>
+			{% endif %}
+		</div>
+	{% endfor %}
+
+	<!-- Compiled and minified JavaScript -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+  </body>

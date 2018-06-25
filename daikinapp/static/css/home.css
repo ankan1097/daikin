@@ -1,5 +1,4 @@
 body{
-  background-image: url('bg1.jpg');
   min-height: 100vh;
   min-width: 100vw;
   overflow: hidden;
@@ -12,10 +11,23 @@ input, textarea{
 }
 
 form{
-    padding-top: 230px;
-    padding-left: 180px;
+    padding-top: 20px;
+    padding-right: 30px;
 }
 
 .error{
     color: #ff0000;
+}
+
+nav{
+   background-color: #424242;
+   height: 135px;
+}
+
+img{
+  width: 450px;
+  height: 150px;
+  position: absolute;
+  padding-bottom: 60px;
+  margin-top: 20px;
 }

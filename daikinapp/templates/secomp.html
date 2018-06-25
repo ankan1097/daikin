@@ -1,0 +1,41 @@
+{% load staticfiles %}
+
+<script type="text/javascript">
+    $('.collapsible').collapsible();
+</script>
+<h4>Search results for "{{string}}"</h4>
+<ul class="collapsible popout" data-collapsible="accordion">
+{% for item in components %}
+	<li>
+		{% ifequal item.compname "fan" %}
+	    	<div class="collapsible-header"><i class="material-icons">brightness_7</i>{{item.compname}}</div>
+	    {% endifequal %}
+	    {% ifequal item.compname 'filter' %}
+	    	<div class="collapsible-header"><i class="material-icons">photo_filter</i>{{item.compname}}</div>
+	    {% endifequal %}
+	    {% ifequal item.compname 'compressor' %}
+	    	<div class="collapsible-header"><i class="material-icons">layers</i>{{item.compname}}</div>
+	    {% endifequal %}
+	    {% ifequal item.compname 'heat exchanger' %}
+	    	<div class="collapsible-header"><i class="material-icons">leak_add</i>{{item.compname}}</div>
+	    {% endifequal %}
+	    {% ifequal item.compname 'sensors' %}
+	    	<div class="collapsible-header"><i class="material-icons">surround_sound</i>{{item.compname}}</div>
+	    {% endifequal %}
+	    {% ifequal item.compname 'remote' %}
+	    	<div class="collapsible-header"><i class="material-icons">keyboard</i>{{item.compname}}</div>
+	    {% endifequal %}
+	    {% ifequal item.compname 'valve' %}
+	    	<div class="collapsible-header"><i class="material-icons">hourglass_full</i>{{item.compname}}</div>
+	    {% endifequal %}
+	    {% ifequal item.compname 'pipe' %}
+	    	<div class="collapsible-header"><i class="material-icons">remove</i>{{item.compname}}</div>
+	    {% endifequal %}
+	    <div class="collapsible-body">
+	    	<p><b>Owner:</b>{{item.ownerid}} &emsp;&emsp;&emsp;&emsp; <b>Email:</b>{{item.mail}}</p>
+	    	<p><b>Type: </b>{{item.type}} &emsp;&emsp;&emsp;&emsp; <b>Count: </b>{{item.count}}</p>
+	    	<p><b>Description: </b>{{item.description}} &emsp;&emsp;&emsp;&emsp; <b>Price: </b>{{item.price}}</p>
+	    </div>
+	</li>
+{% endfor %}
+</ul>

@@ -1,45 +1,171 @@
 {% load staticfiles %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Customer-Systems</title>
+        <script type="text/javascript">
+            function update(){
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'realtime' %}",
+                    data: {},
+                    success:function(resp){
+                        var string = "<p><b>Ta:</b>" + resp.ta + "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<b>Tb:</b>" + resp.tb + "</p>"+
+                        "<p><b>Tf:</b>" + resp.tf + "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<b>Ti:</b>" + resp.ti + "</p>"+
+                        "<p><b>Tsc:</b>" + resp.tsc + "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<b>Tsh:</b>" + resp.tsh + "</p>"+
+                        "<p><b>Hp:</b>" + resp.hp + "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<b>Lp:</b>" + resp.lp + "</p>"+
+                        "<p><b>Inv1:</b>" + resp.inv1 + "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<b>Inv2:</b>" + resp.inv2 + "</p>"+
+                        "<img id='graph' alt='graph is loading' src='{% static 'css/PC0.png' %}'>";
+                        $("#refresh").html(string);
+                    }
+                });
+            }
 
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/system.css' %}">
-  </head>
-  <body>
-    <div class="page-header">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/DAIKIN_logo.svg" alt="Daikin Logo" style="width:450px;height:150px">
-    </div>
-    <div>
+            $(document).ready(function(){
+                var myVar = setInterval(update, 4000);
+                var index = 0;
+                setInterval(function(){
+                    if (index%2 == 0) {
+                        $('#graph').attr('src', "{% static 'css/PC0.png' %}");
+                    }
+                    else{
+                        $('#graph').attr('src', "{% static 'css/PC1.png' %}");
+                    }
+                    index = index + 1;
+                }, 3000);
+                $('.modal').modal();
+                $('.datepicker').pickadate();
+                $('select').material_select();
+                $('#request').click(function(){
+                    $.ajax({
+                        type:'GET',
+                        url: "{% url 'report' %}",
+                        data: {
+                            'value1': $('#err').val(),
+                            'value2': $('#input_date1').val(),
+                            'value3': $('#time1').val(),
+                            'value4': $('input_date2').val(),
+                            'value5': $('#time2').val(),
+                            'value6': $('#input_date3').val(),
+                            'value7': $('#time3').val()
+                        },
+                        success:function(resp){
+                            alert('Your request is successfully placed');
+                        }
+
+                    })
+                });
+            })
+        </script>
         <div  class="welcome">Your systems</div>
-        {%for systems in system %}
-        <div class="card sticky-action">
-            <div class="card-image waves-effect waves-block waves-light">
-                <img class="activator" src="{% static 'css/AC.jpg' %}">
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4>Select Preferrable Time Slots</h4>
+                <form class="col s12" action="/home/" method="post">{% csrf_token%}
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <select id="err">
+                              <option value="" disabled selected>Choose error code</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <label>Materialize Select</label>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="input_date1" type="text" class="datepicker" name="input_date1" required>
+                            <label for="input_date1" >Select Date1</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <select id="time1">
+                              <option value="" disabled selected>Choose time</option>
+                              <option value="1">8am-10am</option>
+                              <option value="2">10am-12pm</option>
+                              <option value="3">12pm-2pm</option>
+                              <option value="4">2pm-4pm</option>
+                              <option value="5">4pm-6pm</option>
+                              <label>Materialize Select</label>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="input_date2" type="text" class="datepicker" name="input_date2" required>
+                            <label for="input_date2" >Select Date2</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <select id="time2">
+                              <option value="" disabled selected>Choose time</option>
+                              <option value="1">8am-10am</option>
+                              <option value="2">10am-12pm</option>
+                              <option value="3">12pm-2pm</option>
+                              <option value="4">2pm-4pm</option>
+                              <option value="5">4pm-6pm</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="input_date3" type="text" class="datepicker" name="input_date3" required>
+                            <label for="input_date3" >Select Date3</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <select id="time3">
+                              <option value="" disabled selected>Choose time</option>
+                              <option value="1">8am-10am</option>
+                              <option value="2">10am-12pm</option>
+                              <option value="3">12pm-2pm</option>
+                              <option value="4">2pm-4pm</option>
+                              <option value="5">4pm-6pm</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4">{{systems.system}}<i class="material-icons right">more_vert</i></span>
-                <p>Date of Purchase: {{systems.purchasedate}}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;In-Warranty: {{systems.warranty}}</p>
-                <div id="status"><p>Dealer ID: {{systems.dealerid}} &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                    Status: &nbsp;</div><div id="circle"></div></p>
-            </div>
-            <div class="card-action">
-                <a href="#">Report an issue</a>
-            </div>
-            <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">{{systems.system}}<i class="material-icons right">close</i></span>
-                <p>Here is some real time data about the system.</p>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="request">Confirm</a>
             </div>
         </div>
+        {%for systems in system %}
+            <div class="card sticky-action outdoor">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img id="out" class="activator" src="{% static 'css/OAC.jpg' %}">
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">{{systems.modelid}}<i class="material-icons right">more_vert</i></span>
+                    <p>Date of Purchase: {{systems.purchasedate}}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;In-Warranty: {{systems.warranty}}</p>
+                    <div id="status"><p>Dealer ID: {{systems.dealerid}} &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                        Status: &nbsp;</div><div id="circle"></div></p>
+                </div>
+                <div class="card-action">
+                    <a href="#modal1" class="btn-flat modal-trigger">Report an issue</a>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">{{systems.system}}<i class="material-icons right">close</i></span>
+                    <p id="refresh"></p>
+                </div>
+            </div>
+            {% for item in systems.indoors%}
+                <div class="card sticky-action indoor">
+                    <div class="card-image waves-effect waves-block waves-light">
+                        <img id="ind" class="activator" src="{% static 'css/AC.jpg' %}">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4">{{item.modelid}}<i class="material-icons right">more_vert</i></span>
+                        <p>Date of Purchase: {{systems.purchasedate}}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;In-Warranty: {{systems.warranty}}</p>
+                        <div id="status"><p>Dealer ID: {{systems.dealerid}} &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                            Status: &nbsp;</div><div id="circle"></div></p>
+                    </div>
+                    <div class="card-action">
+                    <a href="#modal1" class="btn-flat modal-trigger">Report an issue</a>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">{{systems.system}}<i class="material-icons right">close</i></span>
+                        <p>Here is some real time data about the system.</p>
+                    </div>
+                </div>
+            {% endfor %}
         {% endfor %}
-    </div>
-    <!-- Compiled and minified JavaScript -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
- </body>
-</html>
+        </div>
+

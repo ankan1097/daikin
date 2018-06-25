@@ -1,0 +1,43 @@
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#click').click(function(){
+			$.ajax({
+				type: 'GET',
+				url: "{% url 'chatrefresh' %}",
+				data: {},
+				success:function(resp){
+					console.log(resp);
+					$('#chatbox').append(resp);
+				}
+			});
+		});
+		$('#submitmsg').click(function(){
+			var dt = new Date();
+			var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+			var m = $('#usermsg').val();
+			$('#chatbox').append("<p>("+time+") <b>You:</b>" + m +"</p>");
+			$.ajax({
+				type: 'GET',
+				url: "{% url 'chat' %}",
+				data: {
+					'msg': m,
+					'time': time
+				},
+				success: function(resp){
+				}
+			});
+		});
+	});
+</script>
+<div id="wrapper">
+	<div id="menu">
+		<p class="welc">Welcome {{name}} <a id="click" href="#">Refresh</a></p>
+	</div>
+	<div id="chatbox">
+		<p id="tut">Enter receiver id as 'chat@receiverid' to start chat</p>
+	</div>
+		<input type="text" class="browser-default" name="usermsg" id="usermsg" size="60"/>
+		<input name="submitmsg" type="submit"  id="submitmsg" value="Send" />
+</div>

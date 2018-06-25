@@ -1,39 +1,41 @@
-{% load staticfiles %}
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-	<meta charset="utf-8">
-	<title>Customer-Systems</title>
-
-	<!-- Compiled and minified CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-	<!--Import Google Icon Font-->
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="{% static 'css/senotif.css' %}">
-  </head>
-  <body>
-	<div class="page-header">
-	  <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/DAIKIN_logo.svg" alt="Daikin Logo" style="width:450px;height:150px">
-	</div>
-	<div class="notif-header">
-	  <p>Your notifications</p>
-	</div>
-	{%for notif in notifications %}
-		<div class="card">
-			<div class="card-content">
-				<p>Service request by customer <i>{{notif.senderid}}</i> at <i>{{notif.addr}}</i> on <i>{{notif.day}}</i> at <i>{{notif.timeslot}}</i>.</p>
-				<p>Fault: {{notif.description}} </p>
-				
-			</div>
-			<div class="card-action">
-				<a href="{% url 'acceptance'%}">Accept</a>
-				<a href="#">Reject</a>
-				<a href="#">Call a Pro</a>
-			</div>
+	<div class="card" id="time">
+		<div class="card-content">
+			<span class="card-title">Time</span>
+			<p>{{notification.day}}</p>
+			<p>{{notification.timeslot}}</p>
 		</div>
-	{% endfor %}
-
-	<!-- Compiled and minified JavaScript -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-  </body>
+	</div>
+	<div class="card" id="system">
+		<div class="card-content">
+			<span class="card-title">System</span>
+			<p>{{notification.model}}</p>
+		</div>
+	</div>
+	<div class="card" id="location">
+		<div class="card-content">
+			<span class="card-title">Location</span>
+			<p>{{notification.addr}}</p>
+		</div>
+		<div class="card-action">
+			<a href="#">View on map</a>
+		</div>
+	</div>
+	<div class="card" id="real">
+		<div class="card-content">
+			<span class="card-title">Real time data</span>
+			<p>Here is some real time data</p>
+		</div>
+	</div>
+	{% if notification.invalid %}
+	<div id="buttons">
+		<a href="#" class="btn btn-primary" id="accept" disabled>Accept</a>
+		<a href="#" class="btn btn-primary" id="reject" disabled>Reject</a>
+		<a href="#" class="btn btn-primary" id="call">Call a pro</a>
+	</div>
+	{% else %}
+	<div id="buttons">
+		<a href="#" class="btn btn-primary" id="accept">Accept</a>
+		<a href="#" class="btn btn-primary" id="reject">Reject</a>
+		<a href="#" class="btn btn-primary" id="call">Call a pro</a>
+	</div>
+	{% endif %}

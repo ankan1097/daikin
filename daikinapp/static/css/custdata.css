@@ -1,0 +1,51 @@
+body{
+  background-image: url('bg1.jpg');
+  min-height: 100vh;
+  min-width: 100vw;
+  background-size: cover;
+  background-position: top right;
+}
+
+#circle {
+  width: 20px;
+  height: 20px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  background: red;
+  display: inline-block;
+}
+
+#status{
+    display: inline-block;
+}
+
+
+.card{
+    width : 500px;
+    margin-left: 600px;
+}
+
+.notif-header{
+    color: white;
+    padding-left: 700px;
+    font-size: 40px;
+}
+
+#out{
+  height: 300px;
+}
+
+#ind{
+  height: 200px;
+}
+
+.outdoor{
+  width: 500px;
+  margin-left: 600px;
+}
+
+.indoor{
+  width: 500px;
+  margin-left: 850px;
+}

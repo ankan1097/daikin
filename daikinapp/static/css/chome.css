@@ -1,21 +1,96 @@
-body{
-  background-image: url('bg1.jpg');
-  min-height: 100vh;
-  min-width: 100vw;
-  overflow: hidden;
-  background-size: cover;
-  background-position: top right;
-}
+  body{
+    min-height: 100vh;
+    min-width: 100vw;
+    background-size: cover;
+    background-position: top right;
+  }
 
-.welcome{
-    color: white;
-    padding-left: 800px;
-    padding-top: 200px;
-    font-size: 40px;
-}
 
-#system{
-    margin-left: 900px;
+  #notif{
+      margin-left: 750px;
+      size: 20px;
+  }
+
+  h4{
+    color: black;
+  }
+
+  nav{
+   background-color: #424242;
+   height: 135px;
+  }
+
+  #info{
+    margin-top: 10px;
+    width: 400px;
+    height: 110px;
+    margin-right: 20px;
+    background: #b3dced;
+    background: -moz-linear-gradient(left, #b3dced 0%, #29b8e5 99%, #bce0ee 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, #b3dced), color-stop(99%, #29b8e5), color-stop(100%, #bce0ee));
+    background: -webkit-linear-gradient(left, #b3dced 0%, #29b8e5 99%, #bce0ee 100%);
+    background: -o-linear-gradient(left, #b3dced 0%, #29b8e5 99%, #bce0ee 100%);
+    background: -ms-linear-gradient(left, #b3dced 0%, #29b8e5 99%, #bce0ee 100%);
+    background: linear-gradient(to right, #b3dced 0%, #29b8e5 99%, #bce0ee 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced', endColorstr='#bce0ee', GradientType=1 );
+  }
+
+  #pinfo{
+    margin-top: -10px;
+    color: black;
+    line-height: 22px;
+  }
+
+
+  img{
+    width: 450px;
+    height: 150px;
+    position: absolute;
+    padding-bottom: 60px;
     margin-top: 20px;
-    size: 20px;
+  }
+
+  #ntf{
+    margin-top: 30px;
+  }
+
+  #system{
+    margin-top: 30px;
+    margin-right: 10px;
+  }
+
+  #map{
+    height: 100%;
+  }
+
+ 
+
+.outdoor{
+  width: 500px;
+  margin-left: 600px;
 }
+
+.indoor{
+  width: 500px;
+  margin-left: 850px;
+}
+
+#circle {
+  width: 20px;
+  height: 20px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  background: red;
+  display: inline-block;
+}
+
+#status{
+    display: inline-block;
+}
+
+#together{
+  display: inline-block;
+}
+
+

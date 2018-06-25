@@ -1,20 +1,13 @@
-body{
-  background-image: url('bg1.jpg');
-  min-height: 100vh;
-  min-width: 100vw;
-  background-size: cover;
-  background-position: top right;
-}
-
-img{
-    height : 200px;
-}
 
 
-.card{
-    width : 500px;
-    margin-left: 600px;
+#out{
+  height: 300px;
 }
+
+#ind{
+  height: 200px;
+}
+
 
 #circle {
   width: 20px;
@@ -26,13 +19,14 @@ img{
   display: inline-block;
 }
 
-#status{
-    display: inline-block;
-}
-
 
 .welcome{
-    color: white;
+    color: black;
     padding-left: 700px;
     font-size: 40px;
+}
+
+#graph{
+  width: 440px;
+  height: 300px;
 }

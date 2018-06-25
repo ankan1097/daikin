@@ -5,22 +5,381 @@
   <head>
     <meta charset="utf-8">
     <title>Home-Customer</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left:0;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0l_ALMhteF7pYzaNj3GjJKxV5zAOA3W8"
+    async defer></script>
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="text/javascript">
+        var dlat = [], dlng = [], slat = [], slng = [], clat = [], clng = [], alat = [], alng = [], elat = [], elng = [];
+        var map;
+        var l1,l2;
+        var dealers, se;
+        var expand = 0;
+        $(document).ready(function(){
+            function ExpandControl(controlDiv, map) {
+                controlUI = document.createElement('div');
+                controlUI.style.backgroundColor = '#fff';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.border = '2px solid #fff';
+                controlUI.style.borderRadius = '3px';
+                controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+                controlUI.style.marginBottom = '22px';
+                controlUI.style.textAlign = 'center';
+                controlUI.title = 'Click to recenter the map';
+                controlDiv.appendChild(controlUI);
+
+                var controlText = document.createElement('div');
+                controlText.style.color = 'rgb(25,25,25)';
+                controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+                controlText.style.fontSize = '16px';
+                controlText.style.lineHeight = '38px';
+                controlText.style.paddingLeft = '5px';
+                controlText.style.paddingRight = '5px';
+                controlText.innerHTML = 'Expand';
+                controlUI.appendChild(controlText);
+
+                controlUI.addEventListener('click', function(){
+                    $('#map').animate({width: googleMapWidth, height: googleMapHeight}, 500);
+                    $('#systems').empty();
+                    map.controls[google.maps.ControlPosition.TOP_RIGHT].pop();
+                    expand = 0;
+                });
+            }
+
+            var googleMapWidth = $('#map').css('width');
+            var googleMapHeight = $('#map').css('height');
+	      $('.button-collapse').sideNav({
+	        	menuWidth: 330, // Default is 300
+	        	edge: 'right', // Choose the horizontal origin
+	        	closeOnClick: false, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+	        	draggable: true // Choose whether you can drag to open on touch screens
+	      });
+///////////////////////// Loading the map /////////////////////////////////////////
+		  $.ajax({
+			type: "GET",
+			url: "{% url 'mapdata' %}",
+			data: {},
+			success: function(resp){
+				l1 = resp.dealers[0]['latitude'];
+				l2 = resp.dealers[0]['longitude'];
+				map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 12,
+					center: {lat: 35.6941298484848484, lng: 139.7131437535353495},
+					mapTypeId: 'roadmap'
+					});
+
+				customers =  resp.customers
+				dealers = resp.dealers;
+				se = resp.se;
+				analyst = resp.analyst
+				experts = resp.experts
+				for (var i = dealers.length - 1; i >= 0; i--) {
+					dlat.push(parseFloat(dealers[i]['latitude']));
+					dlng.push(parseFloat(dealers[i]['longitude']));
+				}
+
+				for (var i = se.length - 1; i >= 0; i--) {
+					slat.push(parseFloat(se[i]['latitude']));
+					slng.push(parseFloat(se[i]['longitude']));
+				}
+
+				for (var i = customers.length - 1; i >= 0; i--) {
+					clat.push(parseFloat(customers[i]['latitude']));
+					clng.push(parseFloat(customers[i]['longitude']));
+				}
+
+				for (var i = analyst.length - 1; i >= 0; i--) {
+					alat.push(parseFloat(analyst[i]['latitude']));
+					alng.push(parseFloat(analyst[i]['longitude']));
+				}
+
+				for (var i = experts.length - 1; i >= 0; i--) {
+					elat.push(parseFloat(experts[i]['latitude']));
+					elng.push(parseFloat(experts[i]['longitude']));
+				}
+
+				var contentString;
+				var infowindow;
+				var marker;
+				for (var i = dlat.length - 1; i >= 0; i--) {
+					var id = dealers[i]['id'];
+					var name = dealers[i]['fullname'];
+					var email = dealers[i]['email'];
+					var address = dealers[i]['address']
+
+					contentString = '<div id="content">'+
+					'<div id="siteNotice">'+
+					'</div>'+
+					'<h3  id="firstHeading" class="firstHeading">Dealer</h3>'+
+					'<div id="bodyContent">'+
+					'<p><b>ID</b>: '+ id + ' </p>'+
+					'<p><b>Name</b>: '+ name + '</p>'+
+					'<p><b>Email</b>: '+ email + '</p>'+
+					'<p><b>Address</b>: '+ address + '</p>'+
+					'</div>'+
+					'</div>';
+
+					infowindow = new google.maps.InfoWindow();
+
+					marker = new google.maps.Marker({
+					  position: new google.maps.LatLng(dlat[i], dlng[i]),
+					  map: map,
+					  title: 'Dealer',
+					  label: 'D'
+					});
+					google.maps.event.addListener(marker, 'click', (function(marker,content,infowindow) {
+						return function(){
+							infowindow.setContent(content);
+							infowindow.open(map, marker);
+							
+						};
+					})(marker, contentString, infowindow));
+				}
+
+				for (var i = slat.length - 1; i >= 0; i--) {
+					var id = se[i]['id'];
+					var name = se[i]['fullname'];
+					var email = se[i]['email'];
+					var skill = se[i]['skilllevel'];
+					var rating = se[i]['rating']
+
+					contentString = '<div id="content">'+
+					'<div id="siteNotice">'+
+					'</div>'+
+					'<h3  id="firstHeading" class="firstHeading">SE</h3>'+
+					'<div id="bodyContent">'+
+					'<p><b>ID</b>: '+ id + ' </p>'+
+					'<p><b>Name</b>: '+ name + '</p>'+
+					'<p><b>Email</b>: '+ email + '</p>'+
+					'<p><b>Skill</b>: '+ skill + '</p>'+
+					'<p><b>Rating</b>: '+ rating + '</p>'+
+					'</div>'+
+					'</div>';
+					infowindow = new google.maps.InfoWindow()
+					marker = new google.maps.Marker({
+					  position: new google.maps.LatLng(slat[i], slng[i]),
+					  map: map,
+					  title: 'Service Engineer',
+					  icon: 'https://material.io/tools/icons/static/icons/baseline-build-24px.svg'
+					});
+					google.maps.event.addListener(marker, 'click', (function(marker,content,infowindow) {
+						return function(){
+							infowindow.setContent(content);
+							infowindow.open(map, marker);
+							
+						};
+					})(marker, contentString, infowindow));
+				}
+
+				for (var i = elat.length - 1; i >= 0; i--) {
+					var id = experts[i]['id'];
+					var name = experts[i]['fullname'];
+					var email = experts[i]['email'];
+
+					contentString = '<div id="content">'+
+					'<div id="siteNotice">'+
+					'</div>'+
+					'<h3  id="firstHeading" class="firstHeading">Expert</h3>'+
+					'<div id="bodyContent">'+
+					'<p><b>ID</b>: '+ id + ' </p>'+
+					'<p><b>Name</b>: '+ name + '</p>'+
+					'<p><b>Email</b>: '+ email + '</p>'+
+					'</div>'+
+					'</div>';
+					infowindow = new google.maps.InfoWindow()
+					marker = new google.maps.Marker({
+					  position: new google.maps.LatLng(elat[i], elng[i]),
+					  map: map,
+					  title: 'Expert',
+					  icon: 'https://material.io/tools/icons/static/icons/baseline-person_pin-24px.svg'
+					});
+					google.maps.event.addListener(marker, 'click', (function(marker,content,infowindow) {
+						return function(){
+							infowindow.setContent(content);
+							infowindow.open(map, marker);
+							
+						};
+					})(marker, contentString, infowindow));
+				}
+
+				for (var i = clat.length - 1; i >= 0; i--) {
+					var id = customers[i]['id'];
+					var name = customers[i]['fullname'];
+					var email = customers[i]['email'];
+					var address = customers[i]['address']
+
+					contentString = '<div id="content">'+
+					'<div id="siteNotice">'+
+					'</div>'+
+					'<h3  id="firstHeading" class="firstHeading">Customer</h3>'+
+					'<div id="bodyContent">'+
+					'<p><b>ID</b>: '+ id + ' </p>'+
+					'<p><b>Name</b>: '+ name + '</p>'+
+					'<p><b>Email</b>: '+ email + '</p>'+
+					'<p><b>Address</b>: '+ skill + '</p>'+
+					'</div>'+
+					'</div>';
+					infowindow = new google.maps.InfoWindow()
+					marker = new google.maps.Marker({
+					  position: new google.maps.LatLng(clat[i], clng[i]),
+					  map: map,
+					  title: 'Customer',
+					  icon: 'https://material.io/tools/icons/static/icons/baseline-home-24px.svg'
+					});
+					google.maps.event.addListener(marker, 'click', (function(marker,content,infowindow) {
+						return function(){
+							infowindow.setContent(content);
+							infowindow.open(map, marker);
+							
+						};
+					})(marker, contentString, infowindow));
+				}
+
+				for (var i = alat.length - 1; i >= 0; i--) {
+					var id = analyst[i]['id'];
+					var name = analyst[i]['fullname'];
+					var email = analyst[i]['email'];
+
+					contentString = '<div id="content">'+
+					'<div id="siteNotice">'+
+					'</div>'+
+					'<h3  id="firstHeading" class="firstHeading">Analyst</h3>'+
+					'<div id="bodyContent">'+
+					'<p><b>ID</b>: '+ id + ' </p>'+
+					'<p><b>Name</b>: '+ name + '</p>'+
+					'<p><b>Email</b>: '+ email + '</p>'+
+					'</div>'+
+					'</div>';
+					infowindow = new google.maps.InfoWindow()
+					marker = new google.maps.Marker({
+					  position: new google.maps.LatLng(alat[i], alng[i]),
+					  map: map,
+					  title: 'Analyst',
+					  icon: 'https://material.io/tools/icons/static/icons/baseline-person-24px.svg'
+					});
+					google.maps.event.addListener(marker, 'click', (function(marker,content,infowindow) {
+						return function(){
+							infowindow.setContent(content);
+							infowindow.open(map, marker);
+							
+						};
+					})(marker, contentString, infowindow));
+				}
+			}
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+          });
+
+////////////////////////////////// Getting the system data ///////////////////////
+			$('#system').click(function(){
+				$.ajax({
+					type: "GET",
+					url: "{% url 'system' %}",
+					data: {},
+					success:function(resp){
+						$('#map').animate({width: 500, height: 300}, 500);
+                        $('#map').addClass("z-depth-4");
+                        var centerControlDiv = document.createElement('div');
+                        var centerControl = new ExpandControl(centerControlDiv, map);
+
+                        centerControlDiv.index = 1;
+                        if (expand == 0) {
+                            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(centerControlDiv);
+                            expand = 1;
+                        }
+                        $('#systems').empty();
+						$('#systems').html(resp);
+					}
+				});
+			});
+
+            $('#reveal').click(function(){
+                $('.indoor').show();
+            })
+/////////////////////////////////////Opening the feedback form /////////////////////////////
+			$('#feedback').click(function(){
+				$.ajax({
+					type: 'GET',
+					url: "{% url 'feedback'%}",
+					data: {},
+					success:function(resp){
+						$('#map').animate({width: 500, height: 300}, 500);
+		                $('#map').addClass("z-depth-4");
+		                var centerControlDiv = document.createElement('div');
+		                var centerControl = new ExpandControl(centerControlDiv, map);
+
+		                centerControlDiv.index = 1;
+		                if (expand == 0) {
+		                    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(centerControlDiv);
+		                    expand = 1;
+		                }
+		                $('#feed').empty();
+						$('#feed').html(resp);
+					}
+				});
+			})
+        });
+    </script>
     <link rel="stylesheet" href="{% static 'css/chome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/system.css' %}">
   </head>
   <body>
-    <div class="page-header">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/DAIKIN_logo.svg" alt="Daikin Logo" style="width:450px;height:150px">
+    <nav>
+        <div class="nav-wrapper">
+          <a href="#" class="brand-logo">
+            <img src="https://hpc2017.org/wp-content/uploads/2016/05/Daikin-Logo-Transparent.gif">
+          </a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" id="ntf">Notifications<span class="new badge red">{{count}}</span></a></li>
+            <li><a href="#" id="system">Your Systems</a></li>
+            <li><a href="#" id="feedback">Feedback form</a></li>
+            <li><div class="card" id="info">
+              <div class="card-content">
+                <p id="pinfo" ><b>Name:</b> {{name}} 
+                  <br/><b>Email:</b> {{email}} 
+                  <br/><b>Location:</b> {{address}} 
+                  <br/><b>Type:</b> Customer
+              </div>
+            </div></li>
+          </ul>
+          <ul class="side-nav" id="mobile-demo">
+            <h4>&emsp;Your Notifications</h4>
+            {% for item in notifications %}
+                {% if item.read %}
+                    <li><a>Service request by you on {{item.day}} at {{item.timeslot}} is accepted by service engineer {{item.senderid}}</a></li></br></br>
+                {% else %}
+                    <b><li><a>Service request by you on {{item.day}} at {{item.timeslot}} is accepted by service engineer {{item.senderid}}</a></li></b></br>
+                {% endif %}
+                    <li><div class="divider"></div></li>
+            {% endfor %}
+          </ul>
+        </div>
+    </nav>
+    <div id="map"></div>
+    <div id="systems">
     </div>
-    <div>
-        <p  class="welcome">Welcome {{name}}</p>
-        <a href="{% url 'system'%}" class="btn btn-primary btn-lg" id="system">See your systems</a>
-    </div>
+    <div id="feed"></div>
     <!-- Compiled and minified JavaScript -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
  </body>
 </html>

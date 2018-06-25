@@ -1,8 +1,6 @@
 body{
-  background-image: url('bg1.jpg');
   min-height: 100vh;
   min-width: 100vw;
-  overflow: hidden;
   background-size: cover;
   background-position: top right;
 }
@@ -10,11 +8,119 @@ body{
 .welcome{
     color: white;
     padding-left: 800px;
-    padding-top: 200px;
+    padding-top: 20px;
     font-size: 40px;
 }
 
 #notif{
     margin-left: 780px;
     size: 20px;
+}
+
+img{
+    width: 450px;
+    height: 150px;
+    position: absolute;
+    padding-bottom: 60px;
+    margin-top: 20px;
+  }
+
+table{
+  background-color: #fff;
+  width: 500px;
+  margin-top: 20px;
+  margin-left: 760px;
+}
+
+h4{
+  color: black;
+}
+
+input{
+  color: black;
+}
+
+nav{
+   background-color: #424242;
+   height: 135px;
+}
+
+#ntf, #cust, #sbut{
+    margin-top: 30px;
+}
+
+#bar{
+  margin-top: 50px;
+}
+
+#comp{
+  margin-top: 30px;
+  margin-right: 10px;
+}
+
+#time{
+  width: 420px;
+  height: 200px;
+  margin-left: 50px;
+  float: left;
+}
+
+#system{
+  width: 420px;
+  height: 200px;
+  float: left;
+  margin-left: 240px;
+}
+
+#location{
+  width: 400px;
+  height: 200px;
+  float: left;
+  margin-left: 300px;
+}
+
+#real{
+  width: 500px;
+  height: 300px;
+  float: left;
+  margin-left: 670px;
+}
+
+.btn{
+  margin-top: 300px;
+}
+
+#buttons{
+  position: absolute;
+  margin-top: 250px;
+  margin-left: 690px;
+}
+
+#info{
+    margin-top: 10px;
+    width: 400px;
+    height: 110px;
+    margin-right: 20px;
+    background: #b3dced;
+    background: -moz-linear-gradient(left, #b3dced 0%, #29b8e5 99%, #bce0ee 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, #b3dced), color-stop(99%, #29b8e5), color-stop(100%, #bce0ee));
+    background: -webkit-linear-gradient(left, #b3dced 0%, #29b8e5 99%, #bce0ee 100%);
+    background: -o-linear-gradient(left, #b3dced 0%, #29b8e5 99%, #bce0ee 100%);
+    background: -ms-linear-gradient(left, #b3dced 0%, #29b8e5 99%, #bce0ee 100%);
+    background: linear-gradient(to right, #b3dced 0%, #29b8e5 99%, #bce0ee 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced', endColorstr='#bce0ee', GradientType=1 );
+  }
+
+  #pinfo{
+    margin-top: -10px;
+    color: black;
+    line-height: 22px;
+  }
+
+h4{
+  margin-left: 500px;
+}
+
+#aaa{
+  text-transform: uppercase;
 }
